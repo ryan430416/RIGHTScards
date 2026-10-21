@@ -1,0 +1,92 @@
+.ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.ambient__haze {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+}
+
+.ambient__haze--a {
+  top: -8%;
+  left: 50%;
+  width: min(70vw, 520px);
+  height: min(50vw, 380px);
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(40, 68, 110, 0.45), transparent 70%);
+}
+
+.ambient__haze--b {
+  bottom: 8%;
+  right: -10%;
+  width: min(55vw, 420px);
+  height: min(45vw, 340px);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08), transparent 72%);
+}
+
+.ambient__arch {
+  position: absolute;
+  top: 4%;
+  left: 50%;
+  width: min(92vw, 720px);
+  opacity: 0.9;
+  transform: translateX(-50%);
+}
+
+.ambient__astro {
+  position: absolute;
+  top: 12%;
+  right: -4%;
+  width: min(42vw, 280px);
+  opacity: 0.7;
+}
+
+.ambient__flow {
+  position: absolute;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.35),
+    rgba(158, 182, 212, 0.2),
+    transparent
+  );
+  opacity: 0.55;
+}
+
+.ambient__flow--1 {
+  top: 28%;
+  left: 8%;
+  width: min(36vw, 280px);
+  transform: rotate(-18deg);
+}
+
+.ambient__flow--2 {
+  bottom: 22%;
+  left: 18%;
+  width: min(42vw, 320px);
+  transform: rotate(12deg);
+}
+
+@media (max-width: 768px) {
+  .ambient__astro {
+    opacity: 0.35;
+    width: min(55vw, 200px);
+  }
+
+  .ambient__flow {
+    opacity: 0.3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient__flow {
+    opacity: 0.25;
+  }
+}
