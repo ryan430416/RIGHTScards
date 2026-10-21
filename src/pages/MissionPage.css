@@ -1,0 +1,74 @@
+.mission-page-shell {
+  position: relative;
+  min-height: 100vh;
+}
+
+.mission-page {
+  position: relative;
+  z-index: 1;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding: 2rem 1.2rem 3rem;
+  min-height: calc(100vh - 1rem);
+}
+
+.mission-page--missing {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mission-page__brand {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  color: var(--mist);
+}
+
+.mission-page__character {
+  margin: 1.35rem 0 0;
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  color: var(--gold-soft);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.mission-page__code {
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.mission-page__title {
+  margin: 0.45rem 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  line-height: 1.35;
+}
+
+.mission-page__lead {
+  margin: 1rem 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+.mission-page__body {
+  margin: 1.35rem 0 0;
+  padding: 1.15rem 1.05rem;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 2px;
+  background: rgba(8, 14, 26, 0.72);
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: var(--text);
+}

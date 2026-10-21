@@ -13,7 +13,8 @@ import {
   setConfirmedMission,
 } from '../lib/mission'
 import { AmbientDecor } from '../components/AmbientDecor'
-import { CaseDossier } from '../components/CaseDossier'
+import { CaseSelectModal } from '../components/CaseSelectModal'
+import { MissionTicket } from '../components/MissionTicket'
 import './CharactersPage.css'
 
 export function CharactersPage() {
@@ -21,7 +22,8 @@ export function CharactersPage() {
   const initialBrowseId = drawnCharacterId ?? defaultCharacterId
 
   const [activeId, setActiveId] = useState<CharacterId>(initialBrowseId)
-  const [expandedCaseId, setExpandedCaseId] = useState<CaseId | null>(null)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [previewCaseId, setPreviewCaseId] = useState<CaseId | null>(null)
   const [confirmed, setConfirmed] = useState(() => getConfirmedMission())
 
   const character = getCharacter(activeId)
@@ -38,34 +40,35 @@ export function CharactersPage() {
 
   const selectCharacter = (id: CharacterId) => {
     setActiveId(id)
-    // 切換角色時清除尚未確認的案件選取
-    setExpandedCaseId(null)
+    // 切換角色時清除尚未確認的彈窗預覽；不覆蓋已確認任務
+    setPreviewCaseId(null)
+    setModalOpen(false)
   }
 
-  const handleExpandCase = (id: CaseId) => {
+  const openCaseModal = () => {
     if (taskLocked) return
-    setExpandedCaseId(id)
-    requestAnimationFrame(() => {
-      document.getElementById(`case-detail-${id}`)?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          ? 'auto'
-          : 'smooth',
-        block: 'nearest',
-      })
-    })
+    setPreviewCaseId(null)
+    setModalOpen(true)
+  }
+
+  const closeCaseModal = () => {
+    // 取消／關閉不覆寫已保存的任務
+    setModalOpen(false)
+    setPreviewCaseId(null)
   }
 
   const handleConfirmCase = () => {
-    if (!expandedCaseId || taskLocked) return
-    const story = getCaseById(expandedCaseId)
+    if (!previewCaseId || taskLocked) return
+    const story = getCaseById(previewCaseId)
     if (!story || story.characterId !== activeId) return
 
-    const mission = setConfirmedMission(activeId, expandedCaseId)
+    const mission = setConfirmedMission(activeId, previewCaseId)
     setConfirmed(mission)
-    setExpandedCaseId(null)
+    setModalOpen(false)
+    setPreviewCaseId(null)
 
     requestAnimationFrame(() => {
-      document.getElementById('cases')?.scrollIntoView({
+      document.getElementById('mission-ticket')?.scrollIntoView({
         behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
           ? 'auto'
           : 'smooth',
@@ -77,20 +80,13 @@ export function CharactersPage() {
   const handleReselect = () => {
     clearConfirmedMission()
     setConfirmed(null)
-    setExpandedCaseId(null)
+    setPreviewCaseId(null)
 
     if (drawnCharacterId) {
       setActiveId(drawnCharacterId)
     }
 
-    requestAnimationFrame(() => {
-      document.getElementById('cases')?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          ? 'auto'
-          : 'smooth',
-        block: 'start',
-      })
-    })
+    setModalOpen(true)
   }
 
   const themeStyle = {
@@ -223,11 +219,34 @@ export function CharactersPage() {
                 <p>{character.quote}</p>
               </blockquote>
 
-              {!confirmed && !taskLocked ? (
-                <a className="btn btn--ghost codex__to-cases" href="#cases">
-                  選擇案件
-                </a>
-              ) : null}
+              {taskLocked ? (
+                <div className="codex__lock-note" role="status">
+                  <p>
+                    任務模式已對應你抽到的角色「
+                    {drawnCharacterId
+                      ? getCharacter(drawnCharacterId).name
+                      : ''}
+                    」。可自由瀏覽介紹，請回到該角色選擇案件。
+                  </p>
+                  {drawnCharacterId ? (
+                    <button
+                      type="button"
+                      className="btn btn--primary"
+                      onClick={() => selectCharacter(drawnCharacterId)}
+                    >
+                      回到任務角色
+                    </button>
+                  ) : null}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn--primary codex__select-case"
+                  onClick={openCaseModal}
+                >
+                  選擇我的案件
+                </button>
+              )}
             </div>
           </div>
 
@@ -258,27 +277,13 @@ export function CharactersPage() {
           </div>
         </section>
 
-        <CaseDossier
-          character={character}
-          cases={characterCases}
-          taskLocked={taskLocked && !confirmed}
-          lockedCharacterName={
-            drawnCharacterId
-              ? getCharacter(drawnCharacterId).name
-              : undefined
-          }
-          expandedCaseId={expandedCaseId}
-          confirmedCase={confirmedCase}
-          confirmedCharacter={confirmedCharacter}
-          onExpandCase={handleExpandCase}
-          onConfirmCase={handleConfirmCase}
-          onReselect={handleReselect}
-          onJumpToLockedCharacter={
-            drawnCharacterId
-              ? () => selectCharacter(drawnCharacterId)
-              : undefined
-          }
-        />
+        {confirmedCase && confirmedCharacter ? (
+          <MissionTicket
+            character={confirmedCharacter}
+            caseStory={confirmedCase}
+            onReselect={handleReselect}
+          />
+        ) : null}
 
         <section className="closing" aria-labelledby="closing-heading">
           <div className="closing__ornament" aria-hidden="true" />
@@ -295,6 +300,17 @@ export function CharactersPage() {
           </a>
         </section>
       </main>
+
+      <CaseSelectModal
+        open={modalOpen && !taskLocked}
+        character={character}
+        cases={characterCases}
+        previewCaseId={previewCaseId}
+        onSelectCase={setPreviewCaseId}
+        onBackToGrid={() => setPreviewCaseId(null)}
+        onConfirm={handleConfirmCase}
+        onClose={closeCaseModal}
+      />
     </div>
   )
 }

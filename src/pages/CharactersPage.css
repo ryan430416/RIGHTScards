@@ -99,8 +99,27 @@
   color: var(--mist);
 }
 
-.codex__to-cases {
+.codex__select-case {
+  margin-top: 1.45rem;
+  min-width: min(100%, 14rem);
+}
+
+.codex__lock-note {
   margin-top: 1.35rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: rgba(8, 14, 26, 0.75);
+}
+
+.codex__lock-note p {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.codex__lock-note .btn {
+  margin-top: 0.95rem;
 }
 
 .codex__tabs {

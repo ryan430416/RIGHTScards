@@ -84,3 +84,21 @@ export function setConfirmedMission(
 export function clearConfirmedMission(): void {
   localStorage.removeItem(MISSION_KEY)
 }
+
+/** 案件展示路徑，供路由與 QR 共用。 */
+export function getMissionPath(caseId: CaseId): string {
+  return `/mission/${caseId}`
+}
+
+/** 以目前網站 origin 組成完整案件網址，不寫死網域。 */
+export function getMissionUrl(caseId: CaseId): string {
+  if (typeof window === 'undefined') {
+    return getMissionPath(caseId)
+  }
+  return new URL(getMissionPath(caseId), window.location.origin).href
+}
+
+export function parseCaseIdParam(value: string | undefined): CaseId | null {
+  if (!value) return null
+  return isCaseId(value) ? value : null
+}

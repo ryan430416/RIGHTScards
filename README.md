@@ -19,7 +19,10 @@ npm run preview
 ## 路由
 
 - `/` — 首頁入口
-- `/characters` — 角色圖鑑（四位獵鷹介紹）
+- `/characters` — 角色圖鑑與案件選擇（彈窗）
+- `/mission/:caseId` — 關主掃描用案件展示頁（例：`/mission/A-01`）
+
+部署於 Vercel 時，`vercel.json` 已設定 SPA rewrite，支援直接開啟案件網址。
 
 ## 角色圖片
 
