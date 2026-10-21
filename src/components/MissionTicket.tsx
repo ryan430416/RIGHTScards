@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { QRCodeSVG } from 'qrcode.react'
 import type { Character } from '../data/characters'
 import type { CaseStory } from '../data/cases'
 import { getMissionPath, getMissionUrl } from '../lib/mission'
+import { CaseStoryBody } from './CaseStoryBody'
+import { CharacterProfile } from './CharacterProfile'
 import './MissionTicket.css'
 
 interface MissionTicketProps {
@@ -17,22 +19,34 @@ export function MissionTicket({
   caseStory,
   onReselect,
 }: MissionTicketProps) {
-  const [bodyOpen, setBodyOpen] = useState(false)
+  const [bodyOpen, setBodyOpen] = useState(true)
   const missionUrl = getMissionUrl(caseStory.id)
   const missionPath = getMissionPath(caseStory.id)
+
+  const themeStyle = {
+    '--char-accent': character.theme.accent,
+    '--char-accent-soft': character.theme.accentSoft,
+    '--char-glow': character.theme.glow,
+  } as CSSProperties
 
   return (
     <section
       id="mission-ticket"
       className="mission-ticket"
       aria-labelledby="mission-ticket-heading"
+      style={themeStyle}
     >
       <div className="section-heading">
         <h2 id="mission-ticket-heading">你的任務憑證</h2>
         <p>第一關任務已確認</p>
       </div>
 
+      <div className="mission-ticket__profile">
+        <CharacterProfile character={character} compact />
+      </div>
+
       <div className="mission-ticket__card">
+        <p className="mission-ticket__case-label">本次選擇的案件</p>
         <p className="mission-ticket__meta">
           <span>角色｜{character.name}</span>
           <span>案件｜{caseStory.code}</span>
@@ -49,7 +63,10 @@ export function MissionTicket({
             {bodyOpen ? '收合案件內容' : '展開完整案件內容'}
           </button>
           {bodyOpen ? (
-            <p className="mission-ticket__body">{caseStory.body}</p>
+            <CaseStoryBody
+              paragraphs={caseStory.body}
+              className="mission-ticket__body"
+            />
           ) : null}
         </div>
 

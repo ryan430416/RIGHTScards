@@ -4,8 +4,15 @@
   padding-top: 0.5rem;
 }
 
+.mission-ticket__profile {
+  max-width: 920px;
+  margin: 0 auto 1.75rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+}
+
 .mission-ticket__card {
-  max-width: 28rem;
+  max-width: 32rem;
   margin: 0 auto;
   padding: 1.4rem 1.2rem 1.5rem;
   border: 1px solid rgba(212, 175, 55, 0.45);
@@ -15,6 +22,17 @@
     rgba(6, 12, 24, 0.92);
   text-align: center;
   box-shadow: 0 0 28px rgba(212, 175, 55, 0.12);
+}
+
+.mission-ticket__case-label {
+  margin: 0 0 0.75rem;
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--ink);
+  background: var(--gold);
 }
 
 .mission-ticket__meta {
@@ -66,9 +84,17 @@
 
 .mission-ticket__body {
   margin: 0.85rem 0 0;
+}
+
+.mission-ticket__body p {
+  margin: 0 0 0.95rem;
   font-size: 1rem;
   line-height: 1.8;
   color: var(--text);
+}
+
+.mission-ticket__body p:last-child {
+  margin-bottom: 0;
 }
 
 .mission-ticket__qr-wrap {

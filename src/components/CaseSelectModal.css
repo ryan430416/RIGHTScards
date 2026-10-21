@@ -96,6 +96,28 @@
   color: var(--text-muted);
 }
 
+.case-modal__locked-note {
+  margin: 0 0 0.9rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  background: rgba(212, 175, 55, 0.08);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  letter-spacing: 0.04em;
+  color: var(--gold-soft);
+}
+
+.case-modal__current-badge {
+  margin: 0 0 0.55rem;
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  background: var(--gold);
+}
+
 .case-modal__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -103,6 +125,7 @@
 }
 
 .case-modal__card {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -120,6 +143,22 @@
     border-color 0.25s ease,
     box-shadow 0.25s ease,
     background 0.25s ease;
+}
+
+.case-modal__card.is-locked {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.28), 0 0 18px rgba(212, 175, 55, 0.16);
+}
+
+.case-modal__card-badge {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  padding: 0.12rem 0.4rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  background: var(--gold);
 }
 
 .case-modal__card:hover {
@@ -164,9 +203,17 @@
 
 .case-modal__preview-body {
   margin: 1rem 0 0;
+}
+
+.case-modal__preview-body p {
+  margin: 0 0 0.95rem;
   font-size: 1rem;
   line-height: 1.8;
   color: var(--text);
+}
+
+.case-modal__preview-body p:last-child {
+  margin-bottom: 0;
 }
 
 .case-modal__actions {
