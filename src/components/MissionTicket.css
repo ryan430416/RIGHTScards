@@ -98,6 +98,7 @@
 }
 
 .mission-ticket__qr-wrap {
+  scroll-margin-top: 5.5rem;
   margin-top: 1.35rem;
 }
 

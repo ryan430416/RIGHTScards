@@ -67,14 +67,17 @@ export function CharactersPage() {
     setModalOpen(false)
     setPreviewCaseId(null)
 
-    requestAnimationFrame(() => {
-      document.getElementById('mission-ticket')?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
-          ? 'auto'
-          : 'smooth',
-        block: 'start',
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    // 等憑證與 QR 渲染後，捲到案件 QR
+    window.setTimeout(() => {
+      document.getElementById('mission-qr')?.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'center',
       })
-    })
+    }, 80)
   }
 
   const handleReselect = () => {

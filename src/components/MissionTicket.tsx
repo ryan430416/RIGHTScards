@@ -70,7 +70,7 @@ export function MissionTicket({
           ) : null}
         </div>
 
-        <div className="mission-ticket__qr-wrap">
+        <div id="mission-qr" className="mission-ticket__qr-wrap">
           <div className="mission-ticket__qr">
             <QRCodeSVG
               value={missionUrl}
